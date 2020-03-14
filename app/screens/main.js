@@ -12,13 +12,20 @@ import {
 import SearchField from '../components/SearchField';
 import UsersFoundList from '../components/UsersFoundList';
 
+const Main = ({ navigation }) => {
 
-const Main = () => {
   return (
     <SafeAreaView>
       <SearchField />
       <UsersFoundList />
-      <Text>123 hehehe</Text>
+      <Text
+        onPress={() =>
+          navigation.navigate('Detail', {
+            name: 'minzardillah'
+          })}
+      >
+        123 hehehe 123
+      </Text>
     </SafeAreaView>
   );
 }

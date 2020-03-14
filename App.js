@@ -6,7 +6,11 @@
  * @flow
  */
 
+import 'react-native-gesture-handler';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import {
   SafeAreaView,
   StyleSheet,
@@ -24,13 +28,48 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-//screens
+import Navigations from './app/navigations/RootNavigations';
 import Main from './app/screens/main';
+import Detail from './app/screens/detail';
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <>
-      <Main />
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Main"
+            component={Main}
+            options={{
+              title: 'Github Users',
+              headerStyle: {
+                backgroundColor: 'rgb(142,157,164)'
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold'
+              },
+            }}
+          />
+          <Stack.Screen
+            name="Detail"
+            component={Detail}
+            options={({route}) => ({
+              title: route.params.name || 'Username',
+              headerStyle: {
+                backgroundColor: 'rgb(142,157,164)'
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontWeight: 'bold'
+              },
+            })}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+      {/* <Navigations /> */}
       {/* <StatusBar barStyle="dark-content" /> */}
       {/* <SafeAreaView>
         <ScrollView
