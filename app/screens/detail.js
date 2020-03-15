@@ -1,45 +1,72 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 import {
   SafeAreaView,
-  TextInput,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  Button,
-  StatusBar,
   Image
 } from 'react-native';
 
+import { userDetail, clearDetail } from '../store/actions';
 import Organizations from '../components/Organizations';
+import { clear } from 'sisteransi';
 
-const Detail = ({ navigation, route }) => {
+const Detail = ({
+  navigation,
+  route,
+  getUserDetail,
+  clearDetail,
+  userDetail,
+  userOrg
+}) => {
+
+  React.useEffect(() => {
+    getUserDetail(route.params.name)
+
+    return () => {
+      clearDetail()
+    }
+  }, []);
 
   return (
     <SafeAreaView>
-      <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={{uri: 'https://pbs.twimg.com/profile_images/378800000139769269/8c07223956186b1cff6566b84df7f079_400x400.jpeg'}}
-        />
-        <View style={styles.userInfo}>
-          <Text style={styles.nameAndTitle}>Minzard</Text>
-          <Text style={styles.desc}>minzarddillah</Text>
-          <Text style={styles.desc}>Followers: 20</Text>
-          <Text style={styles.desc}>Following: 10</Text>
-          <Text
-            style={styles.link}
-            onPress={() => Linking.openURL('https://google.com').catch((err) => console.error('An error occurred', err))}
-          >
-            https://google.com
-          </Text>
+      {!userDetail.detail.loading && (
+        <View style={styles.container}>
+          <Image
+            style={styles.image}
+            source={{uri: `${userDetail.detail.avatar_url}`}}
+          />
+          <View style={styles.userInfo}>
+            <Text style={styles.nameAndTitle}>{userDetail.detail.name || userDetail.detail.login}</Text>
+            <Text style={styles.desc}>{userDetail.detail.login}</Text>
+            <Text style={styles.desc}>Followers: {userDetail.detail.followers}</Text>
+            <Text style={styles.desc}>Following: {userDetail.detail.following}</Text>
+            <Text
+              style={styles.link}
+            >
+              {userDetail.detail.html_url}
+            </Text>
+          </View>
         </View>
-      </View>
-      <Organizations />
+      )}
+      <Organizations
+        orgs={userOrg}
+      />
     </SafeAreaView>
   );
 }
+
+const mapStateToProps = (state) => ({
+  userDetail: state.githubLib.userDetail,
+  userOrg: state.githubLib.userOrg
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getUserDetail: (username) => dispatch(userDetail(username)),
+  clearDetail: () => dispatch(clearDetail())
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -66,6 +93,12 @@ const styles = StyleSheet.create({
     color: 'rgb(64,111,172)',
     marginTop: 20
   }
-})
-  
-export default Detail;
+});
+
+Detail.propTypes = {
+  getUserDetail: PropTypes.func,
+  // userDetail: PropTypes.,
+  // userOrg: PropTypes.
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail);

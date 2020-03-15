@@ -28,15 +28,16 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import Navigations from './app/navigations/RootNavigations';
 import Main from './app/screens/main';
 import Detail from './app/screens/detail';
+
+import Store from './app/store';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <>
+    <Provider store={Store}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -111,7 +112,7 @@ const App = () => {
           </View>
         </ScrollView>
       </SafeAreaView> */}
-    </>
+    </Provider>
   );
 };
 

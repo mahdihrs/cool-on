@@ -4,70 +4,44 @@ import {
   Text,
   View,
   StyleSheet,
-  Image
+  TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
-
-function Item({ title }) {
+function Item({
+  title,
+  navigation
+}) {
   return (
-    <View style={styles.item}>
-      {/* <View style={styles.leftSideItem}>
-      </View> */}
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() =>
+        navigation.navigate('Detail', {
+          name: title
+        })}
+    >
       <Icon name="account" size={25} color="#4F8EF7" />
-      <View style={{width: '85%', backgroundColor: 'skyblue', marginRight: 10, marginLeft: 7}}>
+      <View style={styles.middleItem}>
         <Text style={styles.title}>{title}</Text>
       </View>
-      <View style={styles.rightSideItem} />
-    </View>
+      <View style={styles.rightSideItem}>
+        <Icon name="arrow-right-circle" size={25} color="#4F8EF7" />
+      </View>
+    </TouchableOpacity>
   );
 }
 
-const UsersFoundList = () => {
-
+const UsersFoundList = ({ navigation, users }) => {
   return (
     <FlatList
-      data={DATA}
-      renderItem={({ item }) => <Item title={item.title} />}
-      keyExtractor={item => item.id}
+      data={users}
+      renderItem={({ item }) => 
+        <Item
+          title={item.login}
+          navigation={navigation}
+        />
+      }
+      keyExtractor={item => String(item.id)}
       initialNumToRender={3}
     />
   );
@@ -88,16 +62,19 @@ const styles = StyleSheet.create({
   leftSideItem: {
     width: '5%',
     paddingRight: 15,
-    // backgroundColor: 'powderblue',
     marginRight: 10
   },
+  middleItem: {
+    width: '85%',
+    marginRight: 10,
+    marginLeft: 7
+  },
   rightSideItem: {
-    width: '5%',
-    backgroundColor: 'steelblue'
+    marginLeft: -10
   },
   title: {
     // fontSize: 15
-  },
+  }
 });
 
 export default UsersFoundList;

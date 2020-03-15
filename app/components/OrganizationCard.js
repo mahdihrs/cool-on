@@ -1,5 +1,5 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -7,16 +7,24 @@ import {
   Image
 } from 'react-native';
 
-const OrganizationCard = () => {
+const OrganizationCard = ({
+  image,
+  orgName,
+  orgDesc
+}) => {
   return (
     <View style={styles.cardContainer}>
       <Image
         style={styles.image}
-        source={{ uri: 'https://pbs.twimg.com/profile_images/378800000139769269/8c07223956186b1cff6566b84df7f079_400x400.jpeg' }}
+        source={{ uri: `${image}` }}
       />
       <View style={styles.infoCard}>
-        <Text style={styles.orgName}>Portfolio</Text>
-        <Text style={styles.description}>Description</Text>
+        <Text style={styles.orgName}>{orgName}</Text>
+        {orgDesc.length > 0 ?
+          <Text style={styles.description}>{orgDesc}</Text>
+          :
+          <Text style={styles.description}>No Description</Text>
+        }
       </View>
     </View>
   )
@@ -46,5 +54,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 });
+
+OrganizationCard.propTypes = {
+  image: PropTypes.string,
+  orgName: PropTypes.string,
+  orgDesc: PropTypes.string
+}
 
 export default OrganizationCard;

@@ -1,13 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   TextInput,
   StyleSheet
 } from 'react-native';
 
-const SearchField = () => {
-
-  const submit = () => {
-    console.log('submittt 123')
+const SearchField = ({ submit, setKeyword }) => {
+  const onChange = (word) => {
+    setKeyword(word);
   }
 
   return (
@@ -17,6 +17,7 @@ const SearchField = () => {
       borderBottomWidth={2}
       returnKeyType='search'
       clearButtonMode='while-editing'
+      onChangeText={onChange}
       onSubmitEditing={submit}
       style={styles.container}
     />
@@ -28,5 +29,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(243,243,243)'
   }
 })
+
+SearchField.propTypes = {
+  submit: PropTypes.func,
+  setKeyword: PropTypes.func
+}
 
 export default SearchField;
