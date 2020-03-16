@@ -23,8 +23,8 @@ const Main = ({
 }) => {
   const [ keyword, setKeyword ] = React.useState('');
 
-  const submit = () => {
-    getUsers(keyword);
+  const submit = (wordOnDebounc) => {
+    getUsers(wordOnDebounc || keyword);
   }
 
   return (

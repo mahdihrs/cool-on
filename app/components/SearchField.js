@@ -9,10 +9,13 @@ import {
 const SearchField = ({ submit, setKeyword, keyword }) => {
   const onChange = (word) => {
     setKeyword(word);
-    // setTimeout(() => {
-    //   debounce(submit, 500)();
-    // }, 500);
-  }
+    console.log(keyword, 'keyword',word, 'word')
+    submitOnDebounce(word);
+  };
+
+  const submitOnDebounce = debounce(() => {
+    submit();
+  }, 3000);
 
   return (
     <TextInput
