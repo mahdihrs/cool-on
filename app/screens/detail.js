@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import {
+  ActivityIndicator,
   SafeAreaView,
   StyleSheet,
   View,
@@ -9,9 +10,8 @@ import {
   Image
 } from 'react-native';
 
-import { userDetail, clearDetail } from '../store/actions';
+import { userDetail, clearDetail, clearUsersFound } from '../store/actions';
 import Organizations from '../components/Organizations';
-import { clear } from 'sisteransi';
 
 const Detail = ({
   navigation,
@@ -19,12 +19,13 @@ const Detail = ({
   getUserDetail,
   clearDetail,
   userDetail,
-  userOrg
+  userOrg,
+  clearUsersFound
 }) => {
-
   React.useEffect(() => {
-    getUserDetail(route.params.name)
-
+    getUserDetail(route.params.name);
+    clearUsersFound();
+    
     return () => {
       clearDetail()
     }
@@ -32,28 +33,34 @@ const Detail = ({
 
   return (
     <SafeAreaView>
-      {!userDetail.detail.loading && (
-        <View style={styles.container}>
-          <Image
-            style={styles.image}
-            source={{uri: `${userDetail.detail.avatar_url}`}}
-          />
-          <View style={styles.userInfo}>
-            <Text style={styles.nameAndTitle}>{userDetail.detail.name || userDetail.detail.login}</Text>
-            <Text style={styles.desc}>{userDetail.detail.login}</Text>
-            <Text style={styles.desc}>Followers: {userDetail.detail.followers}</Text>
-            <Text style={styles.desc}>Following: {userDetail.detail.following}</Text>
-            <Text
-              style={styles.link}
-            >
-              {userDetail.detail.html_url}
-            </Text>
-          </View>
-        </View>
+      {userDetail.loading && (
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+        />
       )}
-      <Organizations
-        orgs={userOrg}
-      />
+      {!userDetail.loading && (
+        <>
+          <View style={styles.container}>
+            <Image
+              style={styles.image}
+              source={{ uri: `${userDetail.detail.avatar_url}` }}
+            />
+            <View style={styles.userInfo}>
+              <Text style={styles.nameAndTitle}>{userDetail.detail.name || userDetail.detail.login}</Text>
+              <Text style={styles.desc}>{userDetail.detail.login}</Text>
+              <Text style={styles.desc}>Followers: {userDetail.detail.followers}</Text>
+              <Text style={styles.desc}>Following: {userDetail.detail.following}</Text>
+              <Text style={styles.link}>
+                {userDetail.detail.html_url}
+              </Text>
+            </View>
+          </View>
+          <Organizations
+            orgs={userOrg}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 }
@@ -65,7 +72,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getUserDetail: (username) => dispatch(userDetail(username)),
-  clearDetail: () => dispatch(clearDetail())
+  clearDetail: () => dispatch(clearDetail()),
+  clearUsersFound: () => dispatch(clearUsersFound())
 });
 
 const styles = StyleSheet.create({
@@ -97,6 +105,8 @@ const styles = StyleSheet.create({
 
 Detail.propTypes = {
   getUserDetail: PropTypes.func,
+  clearUsersFound: PropTypes.func,
+  clearDetail: PropTypes.func
   // userDetail: PropTypes.,
   // userOrg: PropTypes.
 }

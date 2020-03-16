@@ -51,6 +51,12 @@ export default function githubUsers(state = defaultState, action) {
           orgs: []
         }
       }
+    case 'RESET_USERS_FOUND':
+      return {
+        ...state,
+        usersFetched: [],
+        usersFetchedCalled: false
+      }
     default:
       return state
   }  

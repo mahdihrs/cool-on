@@ -10,7 +10,7 @@ export function fetchUsers(q) {
       })
     })
     .catch(error => {
-      console.log(error.response)
+      console.log(`ERROR on fetching users: ${JSON.stringify(error.response.data.message)}`)
     })
   }
 }
@@ -32,7 +32,7 @@ export function userDetail(username) {
       })
     })
     .catch(error => {
-      console.log(error.response)
+      console.log(`ERROR on fetching detail: ${error.response.data.message}`);
     })
   }
 }
@@ -41,6 +41,14 @@ export function clearDetail() {
   return (dispatch) => {
     dispatch({
       type: 'RESET_DETAIL'
+    })
+  }
+}
+
+export function clearUsersFound() {
+  return (dispatch) => {
+    dispatch({
+      type: 'RESET_USERS_FOUND'
     })
   }
 }

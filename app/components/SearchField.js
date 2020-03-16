@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import debounce from 'lodash.debounce';
 import {
   TextInput,
   StyleSheet
 } from 'react-native';
 
-const SearchField = ({ submit, setKeyword }) => {
+const SearchField = ({ submit, setKeyword, keyword }) => {
   const onChange = (word) => {
     setKeyword(word);
+    // setTimeout(() => {
+    //   debounce(submit, 500)();
+    // }, 500);
   }
 
   return (
@@ -19,6 +23,7 @@ const SearchField = ({ submit, setKeyword }) => {
       clearButtonMode='while-editing'
       onChangeText={onChange}
       onSubmitEditing={submit}
+      value={keyword}
       style={styles.container}
     />
   );

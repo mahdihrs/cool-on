@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import {
   SafeAreaView,
   Text,
@@ -11,7 +11,7 @@ import SearchField from '../components/SearchField';
 import UsersFoundList from '../components/UsersFoundList';
 
 //actions
-import { fetchUsers } from '../store/actions';
+import { fetchUsers, clearUsersFound } from '../store/actions';
 
 const Main = ({
   navigation,
@@ -32,20 +32,21 @@ const Main = ({
       <SearchField
         setKeyword={setKeyword}
         submit={submit}
+        keyword={keyword}
       />
-      {usersFetchedCalled && loading && (
+      {/* {usersFetchedCalled && loading && (
         <ActivityIndicator
           size="large"
           color="#0000ff"
         />
-      )}
+      )} */}
       {usersFetched.length > 0 && !loading && (
         <UsersFoundList
           users={usersFetched}
           navigation={navigation}
         />
       )}
-      {usersFetched.length === 0 && !loading && (
+      {usersFetched.length === 0 && usersFetchedCalled && (
         <Text>User not found</Text>
       )}
     </SafeAreaView>
@@ -60,12 +61,16 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getUsers: (q) => dispatch(fetchUsers(q))
+  getUsers: (q) => dispatch(fetchUsers(q)),
+  clearUsersFound: () => dispatch(clearUsersFound())
 });
 
 Main.propTypes = {
   navigation: PropTypes.objectOf(PropTypes.func),
-  getUsers: PropTypes.func
+  getUsers: PropTypes.func,
+  loading: PropTypes.bool,
+  usersFetchedCalled: PropTypes.bool
+  // usersFetched: PropTypes.bool,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

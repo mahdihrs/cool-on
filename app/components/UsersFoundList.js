@@ -42,7 +42,8 @@ const UsersFoundList = ({ navigation, users }) => {
         />
       }
       keyExtractor={item => String(item.id)}
-      initialNumToRender={3}
+      initialNumToRender={6}
+      onEndReachedThreshold={0.7}
     />
   );
 }
