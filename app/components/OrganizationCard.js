@@ -10,7 +10,7 @@ import {
 const OrganizationCard = ({
   image,
   orgName,
-  orgDesc
+  orgDesc = ''
 }) => {
   return (
     <View style={styles.cardContainer}>

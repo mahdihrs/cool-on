@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   SafeAreaView,
-  Text,
-  ActivityIndicator
+  Text
 } from 'react-native';
 
 import SearchField from '../components/SearchField';
@@ -23,8 +22,8 @@ const Main = ({
 }) => {
   const [ keyword, setKeyword ] = React.useState('');
 
-  const submit = (wordOnDebounc) => {
-    getUsers(wordOnDebounc || keyword);
+  const submit = () => {
+    getUsers(keyword);
   }
 
   return (
@@ -34,17 +33,19 @@ const Main = ({
         submit={submit}
         keyword={keyword}
       />
-      {/* {usersFetchedCalled && loading && (
-        <ActivityIndicator
-          size="large"
-          color="#0000ff"
-        />
-      )} */}
       {usersFetched.length > 0 && !loading && (
-        <UsersFoundList
-          users={usersFetched}
-          navigation={navigation}
-        />
+        <>
+          <UsersFoundList
+            users={usersFetched}
+            navigation={navigation}
+          />
+          {/* {listLoading && (
+            <ActivityIndicator
+              size="large"
+              color="#0000ff"
+            />
+          )} */}
+        </>
       )}
       {usersFetched.length === 0 && usersFetchedCalled && (
         <Text>User not found</Text>

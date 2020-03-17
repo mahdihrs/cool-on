@@ -9,8 +9,7 @@ import {
 const SearchField = ({ submit, setKeyword, keyword }) => {
   const onChange = (word) => {
     setKeyword(word);
-    console.log(keyword, 'keyword',word, 'word')
-    submitOnDebounce(word);
+    // submitOnDebounce(word);
   };
 
   const submitOnDebounce = debounce(() => {
