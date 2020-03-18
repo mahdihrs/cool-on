@@ -17,9 +17,9 @@ const SearchField = ({ submit, setKeyword, keyword }) => {
     return () => submitOnDebounce.cancel
   }, [keyword])
 
-  const submitOnDebounce = debounce((word) => {
+  const submitOnDebounce = debounce(() => {
     submit();
-  }, 1000);
+  }, 3000);
 
   return (
     <TextInput
