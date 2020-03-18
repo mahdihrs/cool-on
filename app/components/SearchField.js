@@ -9,12 +9,17 @@ import {
 const SearchField = ({ submit, setKeyword, keyword }) => {
   const onChange = (word) => {
     setKeyword(word);
-    // submitOnDebounce(word);
   };
 
-  const submitOnDebounce = debounce(() => {
+  React.useEffect(() => {
+    submitOnDebounce();
+
+    return () => submitOnDebounce.cancel
+  }, [keyword])
+
+  const submitOnDebounce = debounce((word) => {
     submit();
-  }, 3000);
+  }, 1000);
 
   return (
     <TextInput
@@ -39,7 +44,8 @@ const styles = StyleSheet.create({
 
 SearchField.propTypes = {
   submit: PropTypes.func,
-  setKeyword: PropTypes.func
+  setKeyword: PropTypes.func,
+  keyword: PropTypes.string
 }
 
 export default SearchField;
