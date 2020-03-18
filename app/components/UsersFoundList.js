@@ -47,8 +47,8 @@ const UsersFoundList = ({ navigation, users }) => {
 
         // set next index
         setNextStartingIndex(nextUserStartingIndex + 8 > users.length ? users.length : nextUserStartingIndex + 8);
-        setNextEndIndex(nextUserEndIndex + 8 < users.length  ? nextUserEndIndex + 8 : nextUserEndIndex + (users.length - nextUserEndIndex));
-  
+        setNextEndIndex(nextUserEndIndex + 8 < users.length ? nextUserEndIndex + 8 : nextUserEndIndex + (users.length - nextUserEndIndex));
+
         // finish loading
         setLoading(false);
       }, 2000);
@@ -70,8 +70,16 @@ const UsersFoundList = ({ navigation, users }) => {
         keyExtractor={item => String(item.id)}
         onEndReachedThreshold={0.1}
         onEndReached={configureOffset}
-        style={{height: '85%'}}
+        ListFooterComponent={<FooterLoader loading={loading} />}
+        style={styles.listConfiguration}
       />
+    </>
+  );
+}
+
+const FooterLoader = ({ loading }) => {
+  return (
+    <>
       {loading && (
         <ActivityIndicator
           size="large"
@@ -79,7 +87,7 @@ const UsersFoundList = ({ navigation, users }) => {
         />
       )}
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -107,8 +115,8 @@ const styles = StyleSheet.create({
   rightSideItem: {
     marginLeft: -10
   },
-  title: {
-    // fontSize: 15
+  listConfiguration: {
+    height: '91%'
   }
 });
 

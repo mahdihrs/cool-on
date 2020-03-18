@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
   SafeAreaView,
+  ActivityIndicator,
   Text
 } from 'react-native';
 
@@ -20,10 +21,15 @@ const Main = ({
   loading,
   usersFetchedCalled
 }) => {
-  const [ keyword, setKeyword ] = React.useState('');
+  const [keyword, setKeyword] = React.useState('');
+  const [screenLoading, setLoading] = React.useState(false);
 
   const submit = () => {
     getUsers(keyword);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }
 
   return (
@@ -33,21 +39,21 @@ const Main = ({
         submit={submit}
         keyword={keyword}
       />
-      {usersFetched.length > 0 && !loading && (
+      {screenLoading && (
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+        />
+      )}
+      {usersFetched.length > 0 && !loading && !screenLoading && (
         <>
           <UsersFoundList
             users={usersFetched}
             navigation={navigation}
           />
-          {/* {listLoading && (
-            <ActivityIndicator
-              size="large"
-              color="#0000ff"
-            />
-          )} */}
         </>
       )}
-      {usersFetched.length === 0 && usersFetchedCalled && (
+      {usersFetched.length === 0 && usersFetchedCalled && !screenLoading && (
         <Text>User not found</Text>
       )}
     </SafeAreaView>
