@@ -38,7 +38,8 @@ const SearchField = ({ submit, setKeyword, keyword }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgb(243,243,243)'
+    backgroundColor: 'rgb(243,243,243)',
+    height: 50
   }
 })
 
