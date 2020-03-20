@@ -16,28 +16,26 @@ import { fetchUsers, clearUsersFound } from '../store/actions';
 const Main = ({
   navigation,
   getUsers,
-  gotUser,
   usersFetched,
   loading,
-  usersFetchedCalled
+  usersFetchedCalled,
+  userKeyword
 }) => {
-  const [keyword, setKeyword] = React.useState('');
   const [screenLoading, setLoading] = React.useState(false);
 
-  const submit = () => {
-    getUsers(keyword);
+  const submit = (word) => {
+    getUsers(word);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, 1000);
   }
 
   return (
     <SafeAreaView>
       <SearchField
-        setKeyword={setKeyword}
         submit={submit}
-        keyword={keyword}
+        keyword={userKeyword}
       />
       {screenLoading && (
         <ActivityIndicator
@@ -61,10 +59,10 @@ const Main = ({
 }
 
 const mapStateToProps = (state) => ({
-  gotUser: state.githubLib.userDetail,
   usersFetched: state.githubLib.usersFetched,
   loading: state.githubLib.loading,
-  usersFetchedCalled: state.githubLib.usersFetchedCalled
+  usersFetchedCalled: state.githubLib.usersFetchedCalled,
+  userKeyword: state.githubLib.keyword,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -76,8 +74,8 @@ Main.propTypes = {
   navigation: PropTypes.objectOf(PropTypes.func),
   getUsers: PropTypes.func,
   loading: PropTypes.bool,
-  usersFetchedCalled: PropTypes.bool
-  // usersFetched: PropTypes.bool,
+  usersFetchedCalled: PropTypes.bool,
+  userKeyword: PropTypes.string
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

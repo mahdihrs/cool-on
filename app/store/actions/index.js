@@ -6,7 +6,10 @@ export function fetchUsers(q) {
     .then(({ data }) => {
       dispatch({
         type: 'USERS_FETCHED',
-        payload: data.items
+        payload: {
+          data: data.items,
+          key: q
+        }
       })
     })
     .catch(error => {

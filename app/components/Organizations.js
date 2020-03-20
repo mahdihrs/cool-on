@@ -19,7 +19,7 @@ const Organizations = ({ orgs }) => {
           key={org.id}
           image={org.avatar_url}
           orgName={org.login}
-          orgDesc={org.description}
+          orgDesc={!org.description ? '' : org.description}
         />
       ))}
     </>

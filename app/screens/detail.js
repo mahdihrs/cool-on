@@ -19,7 +19,7 @@ const Detail = ({
   getUserDetail,
   clearDetail,
   userDetail,
-  userOrg,
+  userOrg = [],
   clearUsersFound
 }) => {
   React.useEffect(() => {

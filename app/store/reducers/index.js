@@ -1,4 +1,5 @@
 const defaultState = {
+  keyword: '',
   usersFetched: [],
   userDetail: {
     loading: true,
@@ -19,9 +20,10 @@ export default function githubUsers(state = defaultState, action) {
     case 'USERS_FETCHED': 
       return{
         ...state,
+        keyword: payload.key,
         loading: false,
         usersFetchedCalled: true,
-        usersFetched: payload
+        usersFetched: payload.data
       }
     case 'GET_USER_DETAIL':
       return {
@@ -54,7 +56,7 @@ export default function githubUsers(state = defaultState, action) {
     case 'RESET_USERS_FOUND':
       return {
         ...state,
-        usersFetched: [],
+        // usersFetched: [],
         usersFetchedCalled: false
       }
     default:

@@ -1,25 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 import {
   TextInput,
   StyleSheet
 } from 'react-native';
 
-const SearchField = ({ submit, setKeyword, keyword }) => {
+const SearchField = ({ submit, keyword }) => {
   const onChange = (word) => {
-    setKeyword(word);
+    submitOnDebounce(word);
   };
 
   React.useEffect(() => {
-    submitOnDebounce();
-
-    return () => submitOnDebounce.cancel
-  }, [keyword])
-
-  const submitOnDebounce = debounce(() => {
-    submit();
-  }, 3000);
+    const submitIt = submitOnDebounce;
+    return () => submitIt.cancel
+  }, [])
+  
+  const submitOnDebounce = debounce((word) => {
+    submit(word);
+  }, 1000);
 
   return (
     <TextInput
@@ -29,8 +28,7 @@ const SearchField = ({ submit, setKeyword, keyword }) => {
       returnKeyType='search'
       clearButtonMode='while-editing'
       onChangeText={onChange}
-      onSubmitEditing={submit}
-      value={keyword}
+      onSubmitEditing={(event) => submit(event.nativeEvent.text)}
       style={styles.container}
     />
   );
@@ -45,7 +43,6 @@ const styles = StyleSheet.create({
 
 SearchField.propTypes = {
   submit: PropTypes.func,
-  setKeyword: PropTypes.func,
   keyword: PropTypes.string
 }
 
